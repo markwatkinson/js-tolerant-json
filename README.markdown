@@ -21,6 +21,7 @@ Therefore, this library attempts to sensibly decode slightly erroneous JSON the 
 The library adds two funtions to the global namespace:
 
 ```(object) readJSON(json_string [, errors]);
+
 (string) writeJSON(object);
 ```
 
