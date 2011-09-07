@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <script src='json.js'></script>
+    <script>
+    window.onload = function() {
+      var jsons = [
+      '{\n\
+    "glossary": {\n\
+        "title": "example glossary",\n\
+                "GlossDiv": {\n\
+            "title": "S",\n\
+                        "GlossList": {\n\
+                "GlossEntry": {\n\
+                    "ID": "SGML",\n\
+                                        "SortAs": "SGML",\n\
+                                        "GlossTerm": "Standard Generalized Markup Language",\n\
+                                        "Acronym": "SGML",\n\
+                                        "Abbrev": "ISO 8879:1986",\n\
+                                        "GlossDef": {\n\
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",\n\
+                                                "GlossSeeAlso": ["GML", "XML"]\n\
+                    },\n\
+                                        "GlossSee": "markup"\n\
+                }\n\
+            }\n\
+        }\n\
+    }\n\
+}',
+    '{"img": "http://imgs.xkcd.com/comics/never_do_this.png", \n\
+    "title": "Never Do This", "month": "2", "num": 860, "link": "", \n\
+    "year": "2011", "news": "", "safe_title": "Never Do This", \n\
+    "transcript": "", "alt": "I call Rule 34 on The Secret House.", \n\
+    "day": "14"}',
+'{\n\
+  "bool": [true, false],\n\
+  "numbers": [10, -10, 10.4, 0.12, 12e+100, -1.345e-100, NaN, Infinity, -Infinity, SomeIllegalString],\n\
+  "strings" : ["hello", \'this is wrong\', \'so is \\\' this\', " \\"hello \\"" ], \n\
+  "1" : 1,\n\
+  "-1" : -1,\n\
+}',
+'{"Missing element": }',
+'{: "missing key"}',
+'{key: "should be quoted", "missing value": }',
+'[ "illegal element: " x ]',
+'{#=$ : "illegal key"]',
+'{ "Illegal escape sequence \\x" : 12}',
+'{ "unicode": "\\u03c0" , "wrong" : "\\u01pa" }',
+'[,,#,,xyz,_"empty elements"]',
+'{ "" : []] }'
+
+      ];
+
+      for (var i=0; i<jsons.length; i++) {
+        var text = jsons[i];
+        var errs = [];
+        var output = readJson(text, errs);
+        var output_text = writeJson(output);
+        // hackish word wrap
+        output_text = output_text.replace(/.{80}(?=\s)/g, function($0) {return $0 + '\\\n'; });
+        var out = document.getElementById('out');
+        out.innerHTML += '<strong>Input</strong>';
+        out.innerHTML += '<pre>' + text + '</pre>';
+        out.innerHTML += '<strong>Output</strong>';
+        out.innerHTML += '<pre>' + output_text + '</pre>';
+        if (errs.length) {
+          out.innerHTML += '<strong>Errors/warnings</strong>';
+          out.innerHTML += '<ul>';
+          for (var j=0; j<errs.length; j++) {
+            var e = errs[j];
+            out.innerHTML += '<li> ' + ((e.level == 0)? 'Warning' : 'Error' )+ ': ' +
+            e.lineno + ':' + e.charno + ' ' + e.desc + '<\/li>';
+          }
+          out.innerHTML += '</ul>'
+        }
+      }
+    };
+    </script>
+    <style></style>
+  </head>
+  <body>
+  <div id='out'></div>
+  </body>
+</html>

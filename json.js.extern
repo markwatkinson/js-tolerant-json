@@ -1,0 +1,13 @@
+/**
+ * @param {string} json
+ * @param {Array.<{level:number,charno: number, lineno: number, desc: string}>=} errors
+ * @return {*}
+ */
+function readJson(json, errors) {}
+
+/**
+ * @param {*} object
+ * @param {boolean=} strict
+ * @return {string}
+ */
+function writeJson(object, strict) {}
